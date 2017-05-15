@@ -57,15 +57,19 @@ Once you install and configure the addon, it will prerender your app and generat
 ### Running
 
 1. `npm start`
-1. Visit the app at http://localhost:4200.
+1. Visit the app at [http://localhost:4200](http://localhost:4200).
 
 ### Testing
 
-* `npm test`
+* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
+* `ember test`
+* `ember test --server`
 
 ### Building
 
 * `ember build`
+
+For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
 ## License
 
