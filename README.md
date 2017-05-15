@@ -5,8 +5,9 @@ An Ember CLI addon for prerendering Ember.js apps.
 ## The problem
 
 Applications that heavily use Javascript to render pages, like apps made with Ember.js or any other Javascript framework,
-    - suffer from long initial load and render times, specially on mobile devices with slower networks, because pages don't render until Javascript assets are loaded. This affects the **user experience** and consequently the **search engine ranking**.
-    - may not be crawled properly by search engines, even though search engine crawlers can now render Javascript to some extent.
+
+- suffer from long initial load and render times, specially on mobile devices with slower networks, because pages don't render until Javascript assets are loaded. This affects the **user experience** and consequently the **search engine ranking**.
+- may not be crawled properly by search engines, even though search engine crawlers can now render Javascript to some extent.
 
 ## The solution
 
