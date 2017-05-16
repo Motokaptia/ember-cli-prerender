@@ -1,0 +1,16 @@
+<h3>User photos</h3>
+
+<div>
+  {{#each-in model.photos as |key val|}}
+    <div style="width: 150px; height: 150px; position: relative; display: inline-block;">
+        <h4 style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; font-size: 13px; font-weight: 300;">
+            {{val.title}}
+        </h4>
+        <img src={{val.thumbnailUrl}} />
+    </div>
+  {{/each-in}}
+</div>
+
+<p>{{#link-to "user" model.id}}Go back{{/link-to}} to user profile.</p>
+
+<h5>We do NOT want this page prerendered.</h5>
