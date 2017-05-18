@@ -1,0 +1,12 @@
+{{outlet}}
+<h3>User photo - {{model.photo.title}}</h3>
+
+<div>
+    <div style="width: 300px; height: 300px; position: relative; display: inline-block;">
+        <img src={{model.photo.url}} style="max-width: 100%;" />
+    </div>
+</div>
+
+<p>{{#link-to "user.photos" model.id}}Go back{{/link-to}} to user photos.</p>
+
+<h5>We want this page prerendered.</h5>

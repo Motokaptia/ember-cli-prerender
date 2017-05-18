@@ -1,12 +1,16 @@
 <h3>User photos</h3>
 
+<p>Click on a thumbnail too see the photo.</p>
+
 <div>
   {{#each-in model.photos as |key val|}}
     <div style="width: 150px; height: 150px; position: relative; display: inline-block;">
+      {{#link-to "user.photo" model.id val.id}}
         <h4 style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; font-size: 13px; font-weight: 300;">
             {{val.title}}
         </h4>
-        <img src={{val.thumbnailUrl}} />
+        <img src={{val.thumbnailUrl}} style="max-width: 100%;" />
+      {{/link-to}}
     </div>
   {{/each-in}}
 </div>
