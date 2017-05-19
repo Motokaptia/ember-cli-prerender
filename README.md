@@ -45,6 +45,31 @@ Are you using this addon in production as well? Please let us know!
     }
   });
 ```
+1. **[Skip this if you don't have any [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments) in your routes]** We need a utility function that resolves possible dynamic segment values. `ember generate util dynamicSegmentResolver`
+1. We need a sitemap so the addon know what URLs it needs to prerender. There is a sitemap service you can use to easily generate a sitemap:
+    - `ember generate route sitemap-txt`
+    - Edit *app/router.js* and change `this.route('sitemap-txt');` to `this.route('sitemap-txt', { path: 'sitemap.txt' });`
+    - Edit *app/routes/sitemap-txt.js*:
+    ```js
+import Ember from 'ember';
+import dynamicSegmentResolver from '../utils/dynamic-segment-resolver'; // Remove if you don't have dynamic segments
+
+export default Ember.Route.extend({
+  sitemap: Ember.inject.service(),
+
+  model() {
+    const sitemap = this.get('sitemap');
+    sitemap.setDynamicSegmentResolver(dynamicSegmentResolver); // Remove if you don't have dynamic segments
+    return sitemap.getModel();
+  },
+});
+```
+    - Edit *app/templates/sitemap-txt.hbs*: `{{sitemap-txt model=model}}`
+1. If you'd like to generate an XML sitemap as well (to submit to Google Search Console, for example), do the following:
+    - `ember generate route sitemap-xml`
+    - Edit *app/router.js* and change `this.route('sitemap-xml');` to `this.route('sitemap-xml', { path: 'sitemap.xml' });`
+    - Copy everything from *app/routes/sitemap-txt.js* to *app/routes/sitemap-xml.js*
+    - Edit *app/templates/sitemap-xml.hbs*: `{{sitemap-xml model=model}}`
 
 ### Running
 

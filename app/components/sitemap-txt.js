@@ -1,0 +1,1 @@
+export { default } from 'ember-cli-prerender/components/sitemap-txt';
