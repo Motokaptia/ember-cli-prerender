@@ -2,18 +2,34 @@ import Ember from 'ember';
 
 export default Ember.Service.extend({
   dynamicSegmentResolver: null,
+  rootUrl: null,
+
+  init() {
+    this._super(...arguments);
+
+    const { sitemap } = Ember.getOwner(this).resolveRegistration('config:environment');
+
+    this.set('rootUrl', sitemap.rootUrl);
+
+    this._validate();
+  },
 
   setDynamicSegmentResolver: function(dynamicSegmentResolver) {
     this.set('dynamicSegmentResolver', dynamicSegmentResolver);
   },
 
   getModel() {
-    // const { dynamicSegments } = Ember.getOwner(this).resolveRegistration('config:environment');
     const router = Ember.getOwner(this).lookup('router:main');
     const allRoutes = router.get('_routerMicrolib.recognizer.names');
     const paths = this._routesToPaths(allRoutes, this.get('dynamicSegmentResolver'));
 
     return paths;
+  },
+
+  _validate() {
+    if (!this.get('rootUrl')) {
+      throw new Error(`sitemap.rootUrl is required`);
+    }
   },
 
   _routesToPaths(routes, dynamicSegmentResolver) {
@@ -47,7 +63,12 @@ export default Ember.Service.extend({
     });
 
     // Remove duplications caused by indexes
-    return this._removeDuplicateArrayElements(paths);
+    return this._removeDuplicateArrayElements(paths)
+      .map(path => this._relativeToAbsoluteUrl(path));
+  },
+
+  _relativeToAbsoluteUrl(relativeUrl) {
+    return this.get('rootUrl') + relativeUrl;
   },
 
   _removeDuplicateArrayElements(arr) {
