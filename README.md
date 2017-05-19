@@ -45,7 +45,10 @@ Are you using this addon in production as well? Please let us know!
     }
   });
 ```
-- **[Skip this if you don't have any [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments) in your routes]** We need a utility function that resolves possible dynamic segment values. `ember generate util dynamicSegmentResolver`
+- **[Skip this if you don't have any [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments) in your routes]** We need a utility function that resolves possible dynamic segment values.
+```
+ember generate util dynamicSegmentResolver
+```
 - We need a sitemap so the addon know what URLs it needs to prerender. There is a sitemap service you can use to easily generate a sitemap:
     - `ember generate route sitemap-txt`
     - Edit *app/router.js* and change `this.route('sitemap-txt');` to `this.route('sitemap-txt', { path: 'sitemap.txt' });`
