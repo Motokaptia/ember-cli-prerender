@@ -68,7 +68,7 @@ export default Ember.Route.extend({
   },
 });
 ```
-- If you'd like to generate an XML sitemap as well (to submit to Google Search Console, for example), do the following:
+- If you'd like to generate an [XML sitemap](https://support.google.com/webmasters/answer/183668?hl=en) as well (to submit to Google Search Console, for example), do the following:
     - `ember generate route sitemap-xml`
     - Edit *app/router.js* and change `this.route('sitemap-xml');` to `this.route('sitemap-xml', { path: 'sitemap.xml' });`
     - Edit *app/templates/sitemap-xml.hbs*: `{{sitemap-xml model=model}}`
