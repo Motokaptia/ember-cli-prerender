@@ -49,7 +49,7 @@ Are you using this addon in production as well? Please let us know!
 ```
 ember generate util dynamicSegmentResolver
 ```
-- We need a sitemap so the addon know what URLs it needs to prerender. There is a sitemap service you can use to easily generate a sitemap:
+- We need a sitemap to tell the addon what URLs it needs to prerender. ember-cli-prerender has a handy sitemap service you can use to generate a sitemap:
     - `ember generate route sitemap-txt`
     - Edit *app/router.js* and change `this.route('sitemap-txt');` to `this.route('sitemap-txt', { path: 'sitemap.txt' });`
     - Edit *app/templates/sitemap-txt.hbs*: `{{sitemap-txt model=model}}`
