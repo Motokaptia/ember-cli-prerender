@@ -60,14 +60,19 @@ ember generate util dynamicSegmentResolver
     - Edit *app/routes/sitemap-txt.js*:
 ```js
 import Ember from 'ember';
-import dynamicSegmentResolver from '../utils/dynamic-segment-resolver'; // Remove if you don't have dynamic segments
+
+// The line below is not needed if you don't have any dynamic segments
+import dynamicSegmentResolver from '../utils/dynamic-segment-resolver';
 
 export default Ember.Route.extend({
   sitemap: Ember.inject.service(),
 
   model() {
     const sitemap = this.get('sitemap');
-    sitemap.setDynamicSegmentResolver(dynamicSegmentResolver); // Remove if you don't have dynamic segments
+
+    // The line below is not needed if you don't have any dynamic segments
+    sitemap.setDynamicSegmentResolver(dynamicSegmentResolver);
+
     return sitemap.getModel();
   },
 });
