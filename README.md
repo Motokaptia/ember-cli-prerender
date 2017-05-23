@@ -2,10 +2,6 @@
 
 An Ember CLI addon for prerendering Ember.js apps. 
 
-# WORK IN PROGRESS
-
-This addon will be ready to be used in a few days. We haven't pushed the whole codebase yet.
-
 ## The problem
 
 Applications that heavily use Javascript to render pages, like apps made with Ember.js or any other Javascript framework,
