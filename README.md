@@ -41,7 +41,9 @@ Are you using this addon in production as well? Please let us know!
 ```js
   var app = new EmberApp(defaults, {
     'ember-cli-prerender': {
-      // TODO: Add list of config params along with descriptions and examples
+      sitemap: {
+        rootUrl: 'https://mydummyapp.com/', // Your website's address. All relative paths in your sitemap will be prefixed with this
+      },
     }
   });
 ```
@@ -76,7 +78,36 @@ export default Ember.Route.extend({
 
 ### Running
 
-Once you install and configure the addon, it will prerender your app and generate html files in your `dist` folder when you run `ember build`.
+Once installing and configuring the addon, you can prerender the built application in your `/dist` folder using the `ember prerender` command. 
+
+If you'd like to prerender your app after every build, you can add the following scripts to your `package.json` so that you can build and prerender your app using one command: `npm run build`
+
+```js
+{
+  ...
+  "scripts": {
+    "build": "ember build",
+    "postbuild": "ember prerender",
+    ...
+  },
+  ...
+}
+```
+
+The prerender command comes with the following optional settings:
+
+- **keep-fastboot [Boolean, default: false]**: If set to false, it will remove the `/dist/fastboot` folder, because you do not need it in production.
+- **input-dir [String, default: dist]**: Change it if your app does not get built in the default `/dist` directory.
+- **output-dir [String, default: dist]**: By default, the prerendered files are saved in your `/dist` folder. This option allows you to change that.
+- **empty-output-dir [Boolean, default: false]**: If true, the prerendering script will clear the output directory before creating the prerendered files. Should be used in conjunction with `output-dir`.
+- **max-simultaneous-url-fetches [Number, default: 6]**: We throttle requests to our local Fastboot server so it doesn't get overloaded with too many async requests.
+- **root-url [String, default: blank]**: You can leave it blank if your app is located at the root-level on your domain. If your app is in a subfolder, this setting should match the `rootUrl` setting in your `ember-cli-build.js`.
+
+#### Example
+
+```js
+ember prerender --output-dir dist-static --empty-output-dir 1 --max-simultaneous-url-fetches 12
+```
 
 ## Contribution
 

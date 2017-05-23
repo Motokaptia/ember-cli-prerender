@@ -17,7 +17,14 @@ module.exports = {
    */
   included(app) {
     this._super.included.apply(this, arguments);
-    this.addonOptions = app.options['ember-cli-prerender'];
+
+    const { sitemap } = app.options['ember-cli-prerender'];
+
+    this.addonOptions = {
+      sitemap: Object.assign({
+        rootUrl: null,
+      }, sitemap),
+    };
   },
 
   /**
@@ -28,11 +35,18 @@ module.exports = {
    */
   config(env, config) {
     var conf = {
-      sitemap: Object.assign({
-        rootUrl: null,
-      }, this.addonOptions.sitemap, config.sitemap),
+      sitemap: Object.assign({}, this.addonOptions.sitemap, config.sitemap),
     };
 
     return conf;
+  },
+
+  /**
+   * Add the prerender command
+   */
+  includedCommands: function() {
+    return {
+      'prerender': require('./lib/commands/prerender'),
+    };
   },
 };
