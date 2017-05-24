@@ -96,7 +96,9 @@ Are you using this addon in production as well? Add your site to this list!
 
 This will build your app, prerender it and generate sitemap files along with prerendered HTML files.
 
-#### Optional settings
+### Optional settings
+
+You most likely will not need to adjust any of the following settings.
 
 Setting | Type | Default | Description
 --- | --- | --- | ---
