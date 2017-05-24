@@ -1,6 +1,6 @@
 # ember-cli-prerender
 
-An Ember CLI addon for prerendering Ember.js apps. 
+An Ember CLI addon for prerendering Ember.js apps and generating sitemaps. 
 
 ## The problem
 
