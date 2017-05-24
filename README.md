@@ -30,6 +30,7 @@ When a Javascript application is prerendered, the intial render on the client-si
 
 ### Upcoming features
 
+- [ ] A blueprint to make the installation easier.
 - [ ] Ability to generate a 404 error page.
 - [ ] Compatible with [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox), as seen in the example.
 - [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
