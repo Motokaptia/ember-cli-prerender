@@ -79,11 +79,25 @@ Are you using this addon in production as well? Add your site to this list!
   });
 ```
 - `ember generate sitemap`
+- Add the following scripts to your `package.json`:
+```json
+{
+  ...
+  "scripts": {
+    "build": "ember build",
+    "postbuild": "ember prerender",
+    ...
+  },
+  ...
+}
+```
 - If you're using [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments), edit `utils/dynamic-segment-resolver.js` so that it returns the possible values for each dynamic segment ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
 
 ### Running
 
-After installing and configuring the addon, you can prerender the built application in your `/dist` folder using the `ember prerender` command. 
+`npm run build`
+
+This will build your app, prerender it and generate sitemap files along with prerendered HTML files.
 
 #### Optional settings
 
@@ -99,24 +113,8 @@ sitemap-file-name | String | sitemap | The file name for the txt and xml sitemap
 
 Example:
 
-```js
+```shell
 ember prerender --output-dir dist-static --empty-output-dir 1 --max-simultaneous-url-fetches 12
-```
-
-#### Prerender automatically after every build
-
-If you'd like to prerender your app automatically after every build, you can add the following scripts to your `package.json` and use one npm command to build and prerender your app: `npm run build`
-
-```js
-{
-  ...
-  "scripts": {
-    "build": "ember build",
-    "postbuild": "ember prerender",
-    ...
-  },
-  ...
-}
 ```
 
 ## Contribution
