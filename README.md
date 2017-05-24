@@ -23,11 +23,11 @@ When a Javascript application is prerendered, the intial render on the client-si
 - Works with dynamic segments in routes.
 - Prerenders every page on the sitemap and generates HTML files.
     - Search engines will be able to scan all the content.
-    - The initial load time will be much faster and this will improve the user experience significantly while giving you a SEO boost.
-    - It's compatible with [ember-cli-head](https://github.com/ronco/ember-cli-head), so you can edit your title, description and meta tags per route for social media and search engine crawler bots.
+    - The initial load time will be much faster and this will improve the user experience significantly while giving your Ember app a SEO boost.
+    - It's compatible with [ember-cli-head](https://github.com/ronco/ember-cli-head), so you can set title, description and meta tags per route for social media and search engine crawler bots ([Example](tests/dummy/app/routes/user.js)).
 - The prerendering is really quick, because it happens asynchronously with throttling to minimize the prerendering time.
-- A full example located in `/tests/dummy/app`.
 - Compatible with the newest version of Ember (2.13).
+- [Full example](tests/dummy/app)
 
 ### Upcoming features
 
@@ -45,15 +45,17 @@ When a Javascript application is prerendered, the intial render on the client-si
 These benefits can also be achieved with server-side rendering. [FastBoot](https://ember-fastboot.com/) can be used to render Ember.js apps on the server-side, but it has these drawbacks:
 
 - FastBoot is not production-ready yet.
-- It would require running a Node.js app on the server. Besides limiting your hosting options, this introduces complexities such as caching and error logging.
+- It would require running a Node.js app on the server. Besides limiting your server options and increasing your costs, this introduces complexities such as caching and error logging.
 
 This addon uses FastBoot when prerendering your app, but it uses it on buildtime instead of on runtime.
 
 ### Is this production-ready?
 
-We are using this addon at [MicroMech](https://micromech.net) in production.
+This addon is being used in production in the following websites:
 
-Are you using this addon in production as well? Please let us know!
+- [MicroMech](https://micromech.net)
+
+Are you using this addon in production as well? Add your site to this list!
 
 ## Usage
 
@@ -119,7 +121,8 @@ If you'd like to prerender your app automatically after every build, you can add
 
 ## Contribution
 
-Don't know in what areas you can contribute? Take a look at the list under 'Upcoming features'.
+As with every other open-source project, contributions are appreciated!  
+Need ideas? Take a look at the list under 'Upcoming features'.
 
 ### Installation
 
