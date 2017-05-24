@@ -32,6 +32,8 @@ When a Javascript application is prerendered, the intial render on the client-si
 ### Upcoming features
 
 - [ ] Compatible with pods.
+- [ ] Blueprint will generate tests for the added routes, templates and util.
+- [ ] Blueprint will skip adding the routes to router.js if they're already added.
 - [ ] Ability to generate a 404 error page.
 - [ ] Implement [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) in the example.
 - [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
