@@ -91,11 +91,26 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
 ```
 - If you're using [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments), edit `utils/dynamic-segment-resolver.js` so that it returns the possible values for each dynamic segment ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
 
-### Running
+### Prerendering
 
 `npm run build`
 
 This will build your app, prerender it and generate sitemap files along with prerendered HTML files in your `/dist` directory.
+
+### Running the prerendered version
+
+This is an optional step. If you would like to run the prerendered version locally, do the following:
+
+- `npm install express-simple-static-server --save-dev`
+- Add this script to your `package.json`:
+```json
+{
+  "scripts": {
+    "start-prerendered": "static-server dist"
+  }
+}
+```
+- `npm run start-prerendered`
 
 ### Optional settings for advanced usage
 
