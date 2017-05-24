@@ -53,7 +53,7 @@ This addon uses FastBoot when prerendering your app, but it uses it on buildtime
 
 This addon is being used in production in the following websites:
 
-- [MicroMech](https://micromech.net)
+- [MicroMech](https://micromech.net) (The new version that uses this addon is scheduled to launch to the public in a few weeks)
 
 Are you using this addon in production as well? Add your site to this list!
 
