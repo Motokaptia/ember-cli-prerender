@@ -8,6 +8,7 @@ Applications that heavily use Javascript to render pages, like apps made with Em
 
 - suffer from long initial load and render times, specially on mobile devices with slower networks, because pages don't render until Javascript assets are loaded. This affects the **user experience** and consequently the **search engine ranking**.
 - may not be crawled properly by search engines, even though search engine crawlers can now render Javascript to some extent.
+- cannot have title, description and meta tags on a per page basis for social media and search engine crawler bots.
 
 ## The solution
 
@@ -22,16 +23,20 @@ When a Javascript application is prerendered, the intial render on the client-si
 - Prerenders every page on the sitemap and generates HTML files.
     - Google will be able to scan all the content.
     - The initial load time will be much faster and this will improve the user experience significantly while giving you a SEO boost.
+    - It's compatible with [ember-cli-head](https://github.com/ronco/ember-cli-head) (as seen in the example), so you can edit your title, description and meta tags per route for social media and search engine crawler bots.
 - The prerendering is really quick, because it happens asynchronously with throttling to minimize the prerendering time.
 - A full example located in `/tests/dummy/app`.
 - Compatible with the newest version of Ember (2.13).
 
 ### Upcoming features
 
-- [ ] Ability to exclude pages from the sitemap (and consequently from prerendering)
-- [ ] Pass the full route to the dynamic segment resolver function for more complex cases
-- [ ] Ability to change the asset URLs when prerendering, for cases where the prerendered HTMLs will live on a different domain than the assets
-- [ ] Full automated test coverage
+- [ ] Ability to generate a 404 error page.
+- [ ] Compatible with [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox), as seen in the example.
+- [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
+- [ ] Ability to exclude pages from prerendering (but not from the sitemap). Basically, leaving the default index.html untouched for the excluded pages. Useful when trying to speed up the prerendering of thousands of pages.
+- [ ] Pass the full route to the dynamic segment resolver function for more complex cases, like when two completely different routes have the same dynamic segments, but with different values.
+- [ ] Ability to change the asset URLs when prerendering, for cases where the prerendered HTMLs will live on a different domain than the assets.
+- [ ] Full automated test coverage.
 
 ### Why not SSR? (server-side rendering)
 
