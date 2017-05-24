@@ -115,12 +115,14 @@ After installing and configuring the addon, you can prerender the built applicat
 
 #### Optional settings
 
-- **keep-fastboot [Boolean, default: false]**: If set to false, it will remove the `/dist/fastboot` folder, because you do not need it in production.
-- **input-dir [String, default: 'dist']**: Change it if your app does not get built in the default `/dist` directory.
-- **output-dir [String, default: 'dist']**: By default, the prerendered files are saved in your `/dist` folder. This option allows you to change that.
-- **empty-output-dir [Boolean, default: false]**: If true, the prerendering script will clear the output directory before creating the prerendered files. Should be used in conjunction with `output-dir`.
-- **max-simultaneous-url-fetches [Number, default: 6]**: We throttle requests to our local Fastboot server so it doesn't get overloaded with too many async requests.
-- **root-url [String, default: '']**: You can leave it blank if your app is located at the root-level on your domain. If your app is in a subfolder, this setting should match the `rootUrl` setting in your `ember-cli-build.js`.
+Setting | Type | Default | Description
+--- | --- | --- | ---
+keep-fastboot | Boolean | false | If set to false, it will remove the `/dist/fastboot` folder, because you do not need it in production.
+input-dir | String | dist | Change it if your app does not get built in the default `/dist` directory.
+output-dir | String | dist | By default, the prerendered files are saved in your `/dist` folder. This option allows you to change that.
+empty-output-dir | Boolean | false | If true, the prerendering script will clear the output directory before creating the prerendered files. Should be used in conjunction with `output-dir`.
+max-simultaneous-url-fetches | Number | 6 | We throttle requests to our local Fastboot server so it doesn't get overloaded with too many async requests.
+root-url | String | *Blank* | You can leave it blank if your app is located at the root-level on your domain. If your app is in a subfolder, this setting should match the `rootUrl` setting in your `ember-cli-build.js`.
 
 Example:
 
