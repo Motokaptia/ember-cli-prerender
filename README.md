@@ -16,23 +16,23 @@ When a Javascript application is prerendered, the intial render on the client-si
 
 ### Features
 
-- Generates sitemap.txt and sitemap.xml that can be submitted to search engines.
-    - The sitemaps can be submitted to Google Search Console so Google starts indexing your pages as soon as they're published.
+- Generates sitemap.txt and sitemap.xml.
+    - The sitemaps can be submitted to [Google Search Console](https://www.google.com/webmasters/tools/home?hl=en) so Google starts indexing your pages as soon as they're published.
 - Automatically scans all the routes. No need to manually enter your routes.
 - Works with dynamic segments in routes.
 - Prerenders every page on the sitemap and generates HTML files.
-    - Google will be able to scan all the content.
+    - Search engines will be able to scan all the content.
     - The initial load time will be much faster and this will improve the user experience significantly while giving you a SEO boost.
-    - It's compatible with [ember-cli-head](https://github.com/ronco/ember-cli-head) (as seen in the example), so you can edit your title, description and meta tags per route for social media and search engine crawler bots.
+    - It's compatible with [ember-cli-head](https://github.com/ronco/ember-cli-head), so you can edit your title, description and meta tags per route for social media and search engine crawler bots.
 - The prerendering is really quick, because it happens asynchronously with throttling to minimize the prerendering time.
 - A full example located in `/tests/dummy/app`.
 - Compatible with the newest version of Ember (2.13).
 
 ### Upcoming features
 
-- [ ] A blueprint to make the installation easier.
+- [ ] Easy installation. A blueprint to make the installation easier.
 - [ ] Ability to generate a 404 error page.
-- [ ] Compatible with [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox), as seen in the example.
+- [ ] Implement [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) in the example.
 - [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
 - [ ] Ability to exclude pages from prerendering (but not from the sitemap). Basically, leaving the default index.html untouched for the excluded pages. Useful when trying to speed up the prerendering of thousands of pages.
 - [ ] Pass the full route to the dynamic segment resolver function for more complex cases, like when two completely different routes have the same dynamic segments, but with different values.
