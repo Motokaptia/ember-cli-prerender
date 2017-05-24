@@ -51,7 +51,8 @@
     "ember-resolver": "^4.0.0",
     "ember-source": "2.13.2",
     "express-simple-static-server": "^0.1.0",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "phantomjs": "^2.1.7"
   },
   "engines": {
     "node": ">= 6"
