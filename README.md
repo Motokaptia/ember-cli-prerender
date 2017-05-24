@@ -13,6 +13,26 @@ Applications that heavily use Javascript to render pages, like apps made with Em
 
 When a Javascript application is prerendered, the intial render on the client-side can happen before the Javascript files are loaded and run. Faster initial render improves the user experience and the search engine ranking.
 
+### Features
+
+- Generates sitemap.txt and sitemap.xml that can be submitted to search engines.
+    - The sitemaps can be submitted to Google Search Console so Google starts indexing your pages as soon as they're published.
+- Automatically scans all the routes. No need to manually enter your routes.
+- Works with dynamic segments in routes.
+- Prerenders every page on the sitemap and generates HTML files.
+    - Google will be able to scan all the content.
+    - The initial load time will be much faster and this will improve the user experience significantly while giving you a SEO boost.
+- The prerendering is really quick, because it happens asynchronously with throttling to minimize the prerendering time.
+- A full example located in `/tests/dummy/app`.
+- Compatible with the newest version of Ember (2.13).
+
+### Upcoming features
+
+- [ ] Ability to exclude pages from the sitemap (and consequently from prerendering)
+- [ ] Pass the full route to the dynamic segment resolver function for more complex cases
+- [ ] Ability to change the asset URLs when prerendering, for cases where the prerendered HTMLs will live on a different domain than the assets
+- [ ] Full automated test coverage
+
 ### Why not SSR? (server-side rendering)
 
 These benefits can also be achieved with server-side rendering. [FastBoot](https://ember-fastboot.com/) can be used to render Ember.js apps on the server-side, but it has these drawbacks:
@@ -120,6 +140,8 @@ If you'd like to prerender your app automatically after every build, you can add
 
 ## Contribution
 
+Don't know in what areas you can contribute? Take a look at the list under 'Upcoming features'.
+
 ### Installation
 
 1. `git clone` this repository
@@ -143,8 +165,6 @@ If you'd like to prerender your app automatically after every build, you can add
 ### Running the prerendered version
 
 * `npm run static-server`
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
 
 ## License
 
