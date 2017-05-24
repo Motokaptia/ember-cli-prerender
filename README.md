@@ -96,7 +96,7 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
 
 `npm run build`
 
-This will build your app, prerender it and generate sitemap files along with prerendered HTML files.
+This will build your app, prerender it and generate sitemap files along with prerendered HTML files in your `/dist` directory.
 
 ### Optional settings for advanced usage
 
