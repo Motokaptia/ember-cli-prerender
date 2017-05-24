@@ -7,8 +7,9 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('sitemap-txt', { path: 'sitemap.txt' }); // Required
+  this.route('sitemap-txt', { path: 'sitemap.txt' }); // Required by ember-cli-prerender
   this.route('sitemap-xml', { path: 'sitemap.xml' }); // Optional
+
   this.route('user', { path: '/user/:user_id' }, function() {
     this.route('photos');
     this.route('photo', { path: '/photos/:photo_id' });

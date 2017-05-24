@@ -5,7 +5,13 @@ module.exports = function(defaults) {
   var app = new EmberAddon(defaults, {
     'ember-cli-prerender': {
       sitemap: {
+
+        /**
+         * Your Ember app's internet address.
+         * All relative paths in your sitemap will be prefixed with this.
+         */
         rootUrl: 'https://mydummyapp.com/',
+
       },
     },
   });

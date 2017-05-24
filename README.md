@@ -16,6 +16,7 @@ When a Javascript application is prerendered, the intial render on the client-si
 
 ### Features
 
+- Easy installation. Most of the setup is done for you using a blueprint generator.
 - Generates sitemap.txt and sitemap.xml.
     - The sitemaps can be submitted to [Google Search Console](https://www.google.com/webmasters/tools/home?hl=en) so Google starts indexing your pages as soon as they're published.
 - Automatically scans all the routes. No need to manually enter your routes.
@@ -30,7 +31,6 @@ When a Javascript application is prerendered, the intial render on the client-si
 
 ### Upcoming features
 
-- [ ] Easy installation. A blueprint to make the installation easier.
 - [ ] Compatible with pods.
 - [ ] Ability to generate a 404 error page.
 - [ ] Implement [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) in the example.
@@ -76,39 +76,8 @@ Are you using this addon in production as well? Please let us know!
     }
   });
 ```
-- **[Skip this if you don't have any [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments) in your routes]** We need a utility function that resolves possible dynamic segment values.
-```
-ember generate util dynamicSegmentResolver
-```
-- We need a sitemap to tell the addon what URLs it needs to prerender. ember-cli-prerender has a handy sitemap service you can use to generate a sitemap:
-    - `ember generate route sitemap-txt`
-    - Edit *app/router.js* and change `this.route('sitemap-txt');` to `this.route('sitemap-txt', { path: 'sitemap.txt' });`
-    - Edit *app/templates/sitemap-txt.hbs*: `{{sitemap-txt model=model}}`
-    - Edit *app/routes/sitemap-txt.js*:
-```js
-import Ember from 'ember';
-
-// The line below is not needed if you don't have any dynamic segments
-import dynamicSegmentResolver from '../utils/dynamic-segment-resolver';
-
-export default Ember.Route.extend({
-  sitemap: Ember.inject.service(),
-
-  model() {
-    const sitemap = this.get('sitemap');
-
-    // The line below is not needed if you don't have any dynamic segments
-    sitemap.setDynamicSegmentResolver(dynamicSegmentResolver);
-
-    return sitemap.getModel();
-  },
-});
-```
-- If you'd like to generate an [XML sitemap](https://support.google.com/webmasters/answer/183668?hl=en) as well (to submit to Google Search Console, for example), do the following:
-    - `ember generate route sitemap-xml`
-    - Edit *app/router.js* and change `this.route('sitemap-xml');` to `this.route('sitemap-xml', { path: 'sitemap.xml' });`
-    - Edit *app/templates/sitemap-xml.hbs*: `{{sitemap-xml model=model}}`
-    - Copy everything from *app/routes/sitemap-txt.js* to *app/routes/sitemap-xml.js*
+- `ember generate sitemap`
+- If you're using [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments), edit `utils/dynamic-segment-resolver.js` so that it returns the possible values for each dynamic segment ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
 
 ### Running
 
