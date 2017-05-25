@@ -111,6 +111,16 @@ This is an optional step. If you would like to run the prerendered version local
 ```
 - `npm run start-prerendered`
 
+### Upgrading
+
+If you're using an older version of this addon and want to upgrade to the newest version, follow these steps:
+
+1. `npm install --save-dev ember-cli-prerender`
+1. `ember generate sitemap-utils` (Choose NOT to overwrite your files, if you already have the utils.)
+1. `ember generate sitemap xml` (Only if you're using the XML sitemap)
+1. `ember generate sitemap txt`
+1. Run `ember server` and make sure your [sitemap.txt](http://localhost:4200/sitemap.txt) works.
+
 ### Optional settings for advanced usage
 
 You most likely will not need to adjust any of the following settings.
