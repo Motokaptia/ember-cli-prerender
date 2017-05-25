@@ -93,7 +93,7 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
   }
 }
 ```
-- If you're using [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments), edit `utils/dynamic-segment-resolver.js` so that it returns the possible values for each dynamic segment ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
+- If you're using [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments), edit `utils/dynamic-segment-resolver.js` so that it returns possible values for each dynamic segment ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
 
 ### Prerendering
 
