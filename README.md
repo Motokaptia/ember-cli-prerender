@@ -121,7 +121,7 @@ keep-fastboot | Boolean | false | If set to false, it will remove the `/dist/fas
 input-dir | String | dist | Change it if your app does not get built in the default `/dist` directory.
 output-dir | String | dist | By default, the prerendered files are saved in your `/dist` folder. This option allows you to change that.
 empty-output-dir | Boolean | false | If true, the prerendering script will clear the output directory before creating the prerendered files. Should be used in conjunction with `output-dir`.
-max-simultaneous-url-fetches | Number | 6 | We throttle requests to our local Fastboot server so it doesn't get overloaded with too many async requests.
+max-simultaneous-url-fetches | Number | 4 | We throttle requests to our local Fastboot server so it doesn't get overloaded with too many async requests.
 root-url | String |  | You can leave it blank if your app is located at the root-level on your domain. If your app is in a subfolder, this setting should match the `rootUrl` setting in your `ember-cli-build.js`.
 sitemap-file-name | String | sitemap | The file name for the txt and xml sitemaps.
 
