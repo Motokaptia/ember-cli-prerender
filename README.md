@@ -62,6 +62,10 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
 ### Installation
 
 - `ember install ember-cli-prerender`
+- `ember generate sitemap-utils`
+- `ember generate sitemap xml` (optional, for submitting to search engines) 
+- `ember generate sitemap txt` (required for the prerendering functionality to work)  
+- If you're using [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments), edit `utils/dynamic-segment-resolver.js` so that it returns possible values for each dynamic segment ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
 - Configure the addon in your `ember-cli-build.js`:
 ```js
   var app = new EmberApp(defaults, {
@@ -78,12 +82,6 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
     }
   });
 ```
-- Add sample utility functions needed for the sitemap to your `/app/utils/` directory:  
-`ember generate sitemap-utils`  
-- Generate the xml sitemap. This is optional. The XML sitemap can be submitted to search engines.  
-`ember generate sitemap xml`
-- Generate the txt sitemap. This is required for the prerendering functionality.  
-`ember generate sitemap txt` 
 - Add the following scripts to your `package.json`:
 ```json
 {
@@ -93,7 +91,6 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
   }
 }
 ```
-- If you're using [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments), edit `utils/dynamic-segment-resolver.js` so that it returns possible values for each dynamic segment ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
 
 ### Prerendering
 
