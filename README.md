@@ -20,7 +20,7 @@ When a Javascript application is prerendered, the intial render on the client-si
 - Generates sitemap.txt and sitemap.xml.
     - The sitemaps can be submitted to [Google Search Console](https://www.google.com/webmasters/tools/home?hl=en) so Google starts indexing your pages as soon as they're published.
 - Automatically scans all the routes. No need to manually enter your routes.
-- Works with dynamic segments in routes.
+- Works with dynamic segments in routes ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
 - Prerenders every page on the sitemap and generates HTML files.
     - Search engines will be able to scan all the content.
     - The initial load time will be much faster and this will improve the user experience significantly while giving your Ember app a SEO boost.
