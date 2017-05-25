@@ -1,3 +1,5 @@
+import fetch from 'ember-network/fetch';
+
 export default function dynamicSegmentResolver(dynamicSegmentKey, allSegments, otherDynamicSegments) {
 
   /**
@@ -6,5 +8,16 @@ export default function dynamicSegmentResolver(dynamicSegmentKey, allSegments, o
    */
   // console.log('dynamicSegmentResolver called with params:', dynamicSegmentKey, allSegments, otherDynamicSegments);
 
-  return [1, 2, 3];
+  if (dynamicSegmentKey === 'user_id') {
+    return fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(users => users.map(user => user.id));
+  } else if (dynamicSegmentKey === 'photo_id' && otherDynamicSegments.user_id) {
+    return fetch(`https://jsonplaceholder.typicode.com/users/${otherDynamicSegments.user_id}/photos`)
+      .then(response => response.json())
+      .then(photos => photos.slice(0, 25))
+      .then(photos => photos.map(photo => photo.id));
+  }
+
+  return [];
 }
