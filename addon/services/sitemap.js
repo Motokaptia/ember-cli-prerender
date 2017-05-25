@@ -21,9 +21,9 @@ export default Ember.Service.extend({
   getModel() {
     const router = Ember.getOwner(this).lookup('router:main');
     const allRoutes = router.get('_routerMicrolib.recognizer.names');
-    const paths = this._routesToPaths(allRoutes, this.get('dynamicSegmentResolver'));
+    const pathsPromise = this._routesToPaths(allRoutes);
 
-    return paths;
+    return pathsPromise;
   },
 
   _validate() {
@@ -32,7 +32,7 @@ export default Ember.Service.extend({
     }
   },
 
-  _routesToPaths(routes, dynamicSegmentResolver) {
+  _routesToPaths(routes) {
     const ignore = [
       'error',
       'loading',
@@ -41,7 +41,7 @@ export default Ember.Service.extend({
       'sitemap-xml',
     ];
 
-    const paths = [];
+    let pathsPromise = Promise.resolve([]);
 
     Object.keys(routes).forEach((key) => {
       if (ignore.find(ignoredKey => key.indexOf(ignoredKey) > -1)) {
@@ -49,22 +49,31 @@ export default Ember.Service.extend({
       }
 
       const dynamicSegmentsKeys = this._routeToDynamicSegments(routes[key]);
-      if (dynamicSegmentsKeys.length === 0) { // No dynamic segments in route
-        paths.push(this._routeToPath(routes[key]));
-      } else {
-        const permutations = this._dynamicSegmentsToPermutations(
-          dynamicSegmentsKeys, dynamicSegmentResolver, this._routeToSegments(routes[key])
-        );
 
-        permutations.forEach(permutation =>
-          paths.push(this._routeToPath(routes[key], permutation))
-        );
-      }
+      pathsPromise = pathsPromise.then((paths) => {
+        if (dynamicSegmentsKeys.length === 0) { // No dynamic segments in route
+          paths.push(this._routeToPath(routes[key]));
+          return paths;
+        } else {
+          return this._dynamicSegmentsToPermutations(
+            dynamicSegmentsKeys, this._routeToSegments(routes[key])
+          ).then((permutations) => {
+            paths.push(...permutations.map((permutation) => this._routeToPath(routes[key], permutation)));
+            return paths;
+          });
+        }
+      });
     });
 
-    // Remove duplications caused by indexes
-    return this._removeDuplicateArrayElements(paths)
-      .map(path => this._relativeToAbsoluteUrl(path));
+    return pathsPromise
+      .then(paths =>
+        // Remove duplications caused by indexes
+        this._removeDuplicateArrayElements(paths)
+      )
+      .then(paths =>
+        // Return absolute URLs
+        paths.map(path => this._relativeToAbsoluteUrl(path))
+      );
   },
 
   _routeToSegments(route) {
@@ -110,44 +119,61 @@ export default Ember.Service.extend({
       .map(segment => segment.value);
   },
 
-  _dynamicSegmentsToPermutations(dynamicSegmentsKeys, dynamicSegmentResolver, segments, permutation = {}) {
+  _resolveDynamicSegment(dynamicSegmentKey, allSegments, otherDynamicSegments) {
+    const result = this.get('dynamicSegmentResolver')(dynamicSegmentKey, allSegments, otherDynamicSegments);
+
+    return Promise.resolve(result)
+      .then(values => {
+        if (!Array.isArray(values)) {
+          throw new Error(`The dynamic segment resolver returned a '${typeof values}'` +
+          ` instead of an array for '${dynamicSegmentKey}'.`);
+        }
+
+        return values;
+      });
+  },
+
+  _dynamicSegmentsToPermutations(dynamicSegmentsKeys, segments, permutation = {}) {
     if (dynamicSegmentsKeys.length === 0) {
-      return [];
+      return Promise.resolve([]);
     }
 
     const firstDynamicSegmentKey = dynamicSegmentsKeys[0];
     const remainingDynamicSegmentsKeys = dynamicSegmentsKeys.slice(1);
 
-    const firstDynamicSegmentValues = dynamicSegmentResolver(firstDynamicSegmentKey, segments, permutation);
+    return this._resolveDynamicSegment(firstDynamicSegmentKey, segments, permutation)
+      .then((firstDynamicSegmentValues) => {
+        const firstDynamicSegmentPermutations = firstDynamicSegmentValues.map(val => ({
+          [firstDynamicSegmentKey]: val,
+        }));
 
-    if (!Array.isArray(firstDynamicSegmentValues)) {
-      throw new Error(`The dynamic segment resolver returned a '${typeof firstDynamicSegmentValues}'` +
-      ` instead of an array for '${firstDynamicSegmentKey}'.`);
-    }
+        let permutationsPromise = Promise.resolve([]);
 
-    const firstDynamicSegmentPermutations = firstDynamicSegmentValues.map(val => ({
-      [firstDynamicSegmentKey]: val,
-    }));
-
-    const permutations = [];
-
-    firstDynamicSegmentPermutations.forEach(firstDynamicSegmentPermutation => {
-      const remainingDynamicSegmentsPermutations = this._dynamicSegmentsToPermutations(
-        remainingDynamicSegmentsKeys,
-        dynamicSegmentResolver,
-        segments,
-        Object.assign({}, permutation, firstDynamicSegmentPermutation)
-      );
-
-      if (remainingDynamicSegmentsPermutations.length > 0) {
-        remainingDynamicSegmentsPermutations.forEach(remainingDynamicSegmentsPermutation => {
-          permutations.push(Object.assign({}, firstDynamicSegmentPermutation, remainingDynamicSegmentsPermutation));
+        firstDynamicSegmentPermutations.forEach((firstDynamicSegmentPermutation) => {
+          permutationsPromise = permutationsPromise.then(permutations => {
+            if (remainingDynamicSegmentsKeys.length > 0) {
+              return this._dynamicSegmentsToPermutations(
+                remainingDynamicSegmentsKeys,
+                segments,
+                Object.assign({}, permutation, firstDynamicSegmentPermutation)
+              ).then((remainingDynamicSegmentsPermutations) => {
+                if (remainingDynamicSegmentsPermutations.length > 0) {
+                  remainingDynamicSegmentsPermutations.forEach(remainingDynamicSegmentsPermutation => {
+                    permutations.push(Object.assign({}, firstDynamicSegmentPermutation, remainingDynamicSegmentsPermutation));
+                  });
+                } else {
+                  permutations = [];
+                }
+                return permutations;
+              })
+            } else {
+              permutations.push(firstDynamicSegmentPermutation);
+              return permutations;
+            }
+          })
         });
-      } else {
-        permutations.push(firstDynamicSegmentPermutation);
-      }
-    });
 
-    return permutations;
+        return permutationsPromise;
+      });
   },
 });
