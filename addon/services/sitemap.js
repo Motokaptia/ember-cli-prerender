@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend({
+  sitemapEntryFilter: null,
   dynamicSegmentResolver: null,
   rootUrl: null,
 
@@ -14,6 +15,10 @@ export default Ember.Service.extend({
     this._validate();
   },
 
+  setSitemapEntryFilter: function(sitemapEntryFilter) {
+    this.set('sitemapEntryFilter', sitemapEntryFilter);
+  },
+
   setDynamicSegmentResolver: function(dynamicSegmentResolver) {
     this.set('dynamicSegmentResolver', dynamicSegmentResolver);
   },
@@ -21,9 +26,9 @@ export default Ember.Service.extend({
   getModel() {
     const router = Ember.getOwner(this).lookup('router:main');
     const allRoutes = router.get('_routerMicrolib.recognizer.names');
-    const pathsPromise = this._routesToPaths(allRoutes);
+    const sitemapEntriesPromise = this._routesToSitemapEntries(allRoutes);
 
-    return pathsPromise;
+    return sitemapEntriesPromise;
   },
 
   _validate() {
@@ -32,7 +37,7 @@ export default Ember.Service.extend({
     }
   },
 
-  _routesToPaths(routes) {
+  _routesToSitemapEntries(routes) {
     const ignore = [
       'error',
       'loading',
@@ -41,7 +46,7 @@ export default Ember.Service.extend({
       'sitemap-xml',
     ];
 
-    let pathsPromise = Promise.resolve([]);
+    let sitemapEntriesPromise = Promise.resolve([]);
 
     Object.keys(routes).forEach((key) => {
       if (ignore.find(ignoredKey => key.indexOf(ignoredKey) > -1)) {
@@ -50,30 +55,54 @@ export default Ember.Service.extend({
 
       const dynamicSegmentsKeys = this._routeToDynamicSegments(routes[key]);
 
-      pathsPromise = pathsPromise.then((paths) => {
+      sitemapEntriesPromise = sitemapEntriesPromise.then((entries) => {
         if (dynamicSegmentsKeys.length === 0) { // No dynamic segments in route
-          paths.push(this._routeToPath(routes[key]));
-          return paths;
+          return this._filterSitemapEntry(
+              { loc: this._routeToPath(routes[key]) },
+              this._routeToSegments(routes[key])
+            )
+            .then(entry => entry ? [...entries, entry] : entries);
         } else {
           return this._dynamicSegmentsToPermutations(
             dynamicSegmentsKeys, this._routeToSegments(routes[key])
           ).then((permutations) => {
-            paths.push(...permutations.map((permutation) => this._routeToPath(routes[key], permutation)));
-            return paths;
+            let permutationsPromise = Promise.resolve(entries);
+
+            permutations.forEach((permutation) => {
+              permutationsPromise = permutationsPromise.then((entries) =>
+                this._filterSitemapEntry(
+                  { loc: this._routeToPath(routes[key], permutation) },
+                  this._routeToSegments(routes[key]),
+                  permutation
+                )
+                .then(entry => entry ? [...entries, entry] : entries)
+              );
+            });
+
+            return permutationsPromise;
           });
         }
       });
     });
 
-    return pathsPromise
-      .then(paths =>
+    return sitemapEntriesPromise
+      .then(entries =>
         // Remove duplications caused by indexes
-        this._removeDuplicateArrayElements(paths)
+        this._removeDuplicateEntries(entries)
       )
-      .then(paths =>
-        // Return absolute URLs
-        paths.map(path => this._relativeToAbsoluteUrl(path))
+      .then(entries =>
+        // Map entry.loc from relative paths to absolute URLs
+        entries.map((entry) => {
+          entry.loc = this._relativeToAbsoluteUrl(entry.loc);
+          return entry;
+        })
       );
+  },
+
+  _filterSitemapEntry(entry, segments, dynamicSegments) {
+    const result = this.get('sitemapEntryFilter')(entry, segments, dynamicSegments);
+
+    return Promise.resolve(result);
   },
 
   _routeToSegments(route) {
@@ -86,14 +115,14 @@ export default Ember.Service.extend({
     return this.get('rootUrl') + relativeUrl;
   },
 
-  _removeDuplicateArrayElements(arr) {
-    const newArr = [];
-    arr.forEach((elem) => {
-      if (newArr.indexOf(elem) === -1) {
-        newArr.push(elem);
+  _removeDuplicateEntries(entries) {
+    const newEntries = [];
+    entries.forEach((entry) => {
+      if (!newEntries.find(newEntry => newEntry.loc === entry.loc)) {
+        newEntries.push(entry);
       }
     });
-    return newArr;
+    return newEntries;
   },
 
   _routeToPath(route, dynamicSegments) {

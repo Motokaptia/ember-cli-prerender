@@ -1,9 +1,20 @@
 <pre id="sitemap-xml">
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{{#each-in model as |key val|}}
-   <url>
-      <loc>{{val}}</loc>
-   </url>
+{{#each-in model as |key entry|}}
+  <url>
+    {{#if entry.loc}}
+      <loc>{{entry.loc}}</loc>
+    {{/if}}
+    {{#if entry.lastmod}}
+      <lastmod>{{entry.lastmod}}</lastmod>
+    {{/if}}
+    {{#if entry.changefreq}}
+      <changefreq>{{entry.changefreq}}</changefreq>
+    {{/if}}
+    {{#if entry.priority}}
+      <priority>{{entry.priority}}</priority>
+    {{/if}}
+  </url>
 {{/each-in}}
 </urlset>
 </pre>

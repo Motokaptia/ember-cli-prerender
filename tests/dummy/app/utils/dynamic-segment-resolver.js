@@ -1,5 +1,6 @@
 import fetch from 'ember-network/fetch';
 
+// eslint-disable-next-line no-unused-vars
 export default function dynamicSegmentResolver(dynamicSegmentKey, allSegments, otherDynamicSegments) {
 
   /**

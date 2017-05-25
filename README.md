@@ -26,6 +26,8 @@ When a Javascript application is prerendered, the intial render on the client-si
     - The initial load time will be much faster and this will improve the user experience significantly while giving your Ember app a SEO boost.
     - It's compatible with [ember-cli-head](https://github.com/ronco/ember-cli-head), so you can set title, description and meta tags per route for social media and search engine crawler bots ([Example](tests/dummy/app/routes/user.js)).
 - The prerendering is really quick, because it happens asynchronously with throttling to minimize the prerendering time.
+- You can exclude certain pages from being listed on the sitemap ([How](tests/dummy/app/utils/sitemap-entry-filter.js)). This is useful for hiding private routes, for example. 
+- Follows the [standard protocol](https://www.sitemaps.org/protocol.html) for XML sitemaps. `<loc>` tag is automatically added to the XML sitemap for each page. `<lastmod>`, `<changefreq>` and `<priority>` can be added as well ([Example](tests/dummy/app/utils/sitemap-entry-filter.js)).
 - Compatible with the newest version of Ember (2.13).
 - Compatible with the pod-based structure.
 - Compatible with [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) ([Example](tests/dummy/app/routes/index.js)).
@@ -34,7 +36,6 @@ When a Javascript application is prerendered, the intial render on the client-si
 ### Upcoming features
 
 - [ ] Blueprint will generate tests as well.
-- [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
 - [ ] Ability to exclude pages from prerendering (but not from the sitemap). Basically, leaving the default index.html untouched for the excluded pages. Useful when trying to speed up the prerendering of thousands of pages.
 - [ ] Full automated test coverage.
 
