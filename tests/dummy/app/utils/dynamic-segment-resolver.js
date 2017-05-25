@@ -15,7 +15,7 @@ export default function dynamicSegmentResolver(dynamicSegmentKey, allSegments, o
   } else if (dynamicSegmentKey === 'photo_id' && otherDynamicSegments.user_id) {
     return fetch(`https://jsonplaceholder.typicode.com/users/${otherDynamicSegments.user_id}/photos`)
       .then(response => response.json())
-      .then(photos => photos.slice(0, 25))
+      .then(photos => photos.slice(0, 8))
       .then(photos => photos.map(photo => photo.id));
   }
 

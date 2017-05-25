@@ -10,7 +10,7 @@ export default Ember.Route.extend({
     const user = this.modelFor('user');
     return fetch(`https://jsonplaceholder.typicode.com/users/${user_id}/photos`)
       .then(response => response.json())
-      .then(photos => photos.slice(0, 25)) // Just reducing the size of the page
+      .then(photos => photos.slice(0, 8)) // Just reducing the size of the page
       .then(photos => {
         Ember.set(user, 'photos', photos);
         return user;
