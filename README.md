@@ -36,7 +36,6 @@ When a Javascript application is prerendered, the intial render on the client-si
 ### Upcoming features
 
 - [ ] Blueprint will generate tests as well.
-- [ ] Ability to exclude pages from prerendering (but not from the sitemap). Basically, leaving the default index.html untouched for the excluded pages. Useful when trying to speed up the prerendering of thousands of pages.
 - [ ] Full automated test coverage.
 
 ### Why not SSR? (server-side rendering)
