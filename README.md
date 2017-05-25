@@ -80,6 +80,8 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
   });
 ```
 - `ember generate sitemap`
+- Add sample utility functions needed for the sitemap to your `/app/utils/` directory:  
+`ember generate sitemap-utils`  
 - Add the following scripts to your `package.json`:
 ```json
 {
