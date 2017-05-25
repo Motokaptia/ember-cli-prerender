@@ -1,35 +1,72 @@
 /* eslint-env node */
+
+const path = require('path');
+
 module.exports = {
   description: 'Generate txt and xml sitemaps.',
 
   normalizeEntityName: function(entityName){
-    return entityName || 'sitemap';
+    if (!entityName) {
+      entityName = 'txt'; // default value
+    }
+    if (!['txt', 'xml'].includes(entityName)) {
+      throw new Error(`Your sitemap could be either txt or xml. The entered value (${entityName}) is invalid.`)
+    }
+    return `sitemap-${entityName}`;
+  },
+
+  fileMapTokens: function(options) {
+    return {
+      __routePath__: function(options) {
+        if (options.pod) {
+          return path.join(options.podPath, options.dasherizedModuleName);
+        } else {
+          return 'routes';
+        }
+      },
+      __routeFileName__: function(options) {
+        if (options.pod) {
+          return 'route';
+        } else {
+          return options.dasherizedModuleName;
+        }
+      },
+      __templatePath__: function(options) {
+        if (options.pod) {
+          return path.join(options.podPath, options.dasherizedModuleName);
+        } else {
+          return 'templates';
+        }
+      },
+      __templateFileName__: function(options) {
+        if (options.pod) {
+          return 'template';
+        } else {
+          return options.dasherizedModuleName;
+        }
+      },
+    }
+  },
+
+  locals: function(options) {
+    return {
+      sitemapComponent: options.entity.name,
+    };
   },
 
   afterInstall: function(options) {
-    const routes = [
-      `  this.route('${options.entity.name}-txt', { path: '${options.entity.name}.txt' }); // Required by ember-cli-prerender`,
-      `\n  this.route('${options.entity.name}-xml', { path: '${options.entity.name}.xml' }); // Optional\n`,
-    ];
 
-    return this.ui.prompt({
-        type: 'list',
-        name: 'addRoutes',
-        message: `How would you like to add the following sitemaps to your routes?\n\n${routes.join('')}\n`,
-        choices: [
-          { name: 'Automatic: Add them for me.', value: true },
-          { name: 'Manual: I will add them myself.', value: false }
-        ]
-      })
-      .then(({ addRoutes }) => {
-        if (addRoutes) {
-          return this.insertIntoFile('app/router.js', routes.join(''), {
-              after: 'Router.map(function() {\n'
-            })
-            .then(() => this.ui.writeLine(`Added route ${options.entity.name}-txt to app/router.js`))
-            .then(() => this.ui.writeLine(`Added route ${options.entity.name}-xml to app/router.js`));
-        }
-      })
-      .then(() => this.ui.writeLine(`Sitemap generation is done.`));
+    let route;
+
+    if (options.entity.name.substr(-4) === '-txt') {
+      route = `  this.route('${options.entity.name}', { path: '${options.entity.name.replace('-txt', '.txt')}' }); // Required by ember-cli-prerender`;
+    } else if (options.entity.name.substr(-4) === '-xml') {
+      route = `  this.route('${options.entity.name}', { path: '${options.entity.name.replace('-xml', '.xml')}' }); // Optional`;
+    }
+
+    return this.insertIntoFile('app/router.js', route, {
+      after: 'Router.map(function() {\n'
+    })
+    .then(() => this.ui.writeLine(`Added route ${options.entity.name} to app/router.js`));
   },
 };

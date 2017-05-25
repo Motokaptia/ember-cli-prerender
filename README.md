@@ -27,18 +27,17 @@ When a Javascript application is prerendered, the intial render on the client-si
     - It's compatible with [ember-cli-head](https://github.com/ronco/ember-cli-head), so you can set title, description and meta tags per route for social media and search engine crawler bots ([Example](tests/dummy/app/routes/user.js)).
 - The prerendering is really quick, because it happens asynchronously with throttling to minimize the prerendering time.
 - Compatible with the newest version of Ember (2.13).
+- Compatible with the pod-based structure.
 - [Full example](tests/dummy/app)
 
 ### Upcoming features
 
-- [ ] Compatible with pods.
-- [ ] Blueprint will generate tests for the added routes, templates and util.
+- [ ] Blueprint will generate tests as well.
 - [ ] Ability to generate a 404 error page.
 - [ ] Implement [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) in the example.
 - [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
 - [ ] Ability to exclude pages from prerendering (but not from the sitemap). Basically, leaving the default index.html untouched for the excluded pages. Useful when trying to speed up the prerendering of thousands of pages.
 - [ ] Pass the full route to the dynamic segment resolver function for more complex cases, like when two completely different routes have the same dynamic segments, but with different values.
-- [ ] Ability to change the asset URLs when prerendering, for cases where the prerendered HTMLs will live on a different domain than the assets.
 - [ ] Full automated test coverage.
 
 ### Why not SSR? (server-side rendering)
@@ -79,9 +78,12 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
     }
   });
 ```
-- `ember generate sitemap`
 - Add sample utility functions needed for the sitemap to your `/app/utils/` directory:  
 `ember generate sitemap-utils`  
+- Generate the xml sitemap. This is optional. The XML sitemap can be submitted to search engines.  
+`ember generate sitemap xml`
+- Generate the txt sitemap. This is required for the prerendering functionality.  
+`ember generate sitemap txt` 
 - Add the following scripts to your `package.json`:
 ```json
 {
