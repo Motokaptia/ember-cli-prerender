@@ -53,7 +53,7 @@ export default Ember.Service.extend({
         paths.push(this._routeToPath(routes[key]));
       } else {
         const permutations = this._dynamicSegmentsToPermutations(
-          dynamicSegmentsKeys, dynamicSegmentResolver
+          dynamicSegmentsKeys, dynamicSegmentResolver, this._routeToSegments(routes[key])
         );
 
         permutations.forEach(permutation =>
@@ -65,6 +65,12 @@ export default Ember.Service.extend({
     // Remove duplications caused by indexes
     return this._removeDuplicateArrayElements(paths)
       .map(path => this._relativeToAbsoluteUrl(path));
+  },
+
+  _routeToSegments(route) {
+    return route.segments
+      .filter(segment => [0, 1].includes(segment.type))
+      .map(({type, value}) => (type === 1) ? `:${value}` : value); // Prefix dynamic segments with colon
   },
 
   _relativeToAbsoluteUrl(relativeUrl) {
@@ -104,7 +110,7 @@ export default Ember.Service.extend({
       .map(segment => segment.value);
   },
 
-  _dynamicSegmentsToPermutations(dynamicSegmentsKeys, dynamicSegmentResolver, permutation = {}) {
+  _dynamicSegmentsToPermutations(dynamicSegmentsKeys, dynamicSegmentResolver, segments, permutation = {}) {
     if (dynamicSegmentsKeys.length === 0) {
       return [];
     }
@@ -112,7 +118,7 @@ export default Ember.Service.extend({
     const firstDynamicSegmentKey = dynamicSegmentsKeys[0];
     const remainingDynamicSegmentsKeys = dynamicSegmentsKeys.slice(1);
 
-    const firstDynamicSegmentValues = dynamicSegmentResolver(firstDynamicSegmentKey, permutation);
+    const firstDynamicSegmentValues = dynamicSegmentResolver(firstDynamicSegmentKey, segments, permutation);
 
     if (!Array.isArray(firstDynamicSegmentValues)) {
       throw new Error(`The dynamic segment resolver returned a '${typeof firstDynamicSegmentValues}'` +
@@ -129,6 +135,7 @@ export default Ember.Service.extend({
       const remainingDynamicSegmentsPermutations = this._dynamicSegmentsToPermutations(
         remainingDynamicSegmentsKeys,
         dynamicSegmentResolver,
+        segments,
         Object.assign({}, permutation, firstDynamicSegmentPermutation)
       );
 

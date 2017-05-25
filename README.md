@@ -37,7 +37,6 @@ When a Javascript application is prerendered, the intial render on the client-si
 - [ ] Implement [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) in the example.
 - [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
 - [ ] Ability to exclude pages from prerendering (but not from the sitemap). Basically, leaving the default index.html untouched for the excluded pages. Useful when trying to speed up the prerendering of thousands of pages.
-- [ ] Pass the full route to the dynamic segment resolver function for more complex cases, like when two completely different routes have the same dynamic segments, but with different values.
 - [ ] Full automated test coverage.
 
 ### Why not SSR? (server-side rendering)
