@@ -28,12 +28,12 @@ When a Javascript application is prerendered, the intial render on the client-si
 - The prerendering is really quick, because it happens asynchronously with throttling to minimize the prerendering time.
 - Compatible with the newest version of Ember (2.13).
 - Compatible with the pod-based structure.
+- Compatible with [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) ([Example](tests/dummy/app/routes/index.js)).
 - [Full example](tests/dummy/app)
 
 ### Upcoming features
 
 - [ ] Blueprint will generate tests as well.
-- [ ] Implement [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) in the example.
 - [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
 - [ ] Ability to exclude pages from prerendering (but not from the sitemap). Basically, leaving the default index.html untouched for the excluded pages. Useful when trying to speed up the prerendering of thousands of pages.
 - [ ] Full automated test coverage.
