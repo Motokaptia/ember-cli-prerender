@@ -33,7 +33,6 @@ When a Javascript application is prerendered, the intial render on the client-si
 ### Upcoming features
 
 - [ ] Blueprint will generate tests as well.
-- [ ] Ability to generate a 404 error page.
 - [ ] Implement [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) in the example.
 - [ ] Ability to exclude pages from the sitemap (and consequently from prerendering). Useful for private routes.
 - [ ] Ability to exclude pages from prerendering (but not from the sitemap). Basically, leaving the default index.html untouched for the excluded pages. Useful when trying to speed up the prerendering of thousands of pages.
