@@ -19,7 +19,7 @@
     "build": "ember build",
     "postbuild": "ember prerender",
     "start": "ember server",
-    "test": "ember try:each",
+    "test": "ember test",
     "static-server": "static-server dist"
   },
   "dependencies": {
