@@ -120,7 +120,7 @@ export default Ember.Service.extend({
       );
   },
 
-  _filterSitemapEntry(entry, segments, dynamicSegments) {
+  _filterSitemapEntry(entry, segments, dynamicSegments = {}) {
     const sitemapEntryFilter = this.get('sitemapEntryFilter');
 
     const result = sitemapEntryFilter ? sitemapEntryFilter(entry, segments, dynamicSegments) : entry;
