@@ -21,16 +21,16 @@ export default Ember.Service.extend({
     }
   },
 
-  setRoutes: function(allRoutes) {
-    this.set('allRoutes', allRoutes);
-  },
-
   setSettings: function(settings) {
     if (settings) {
       if ('rootUrl' in settings) {
         this.set('rootUrl', settings.rootUrl);
       }
     }
+  },
+
+  setRoutes: function(allRoutes) {
+    this.set('allRoutes', allRoutes);
   },
 
   setSitemapEntryFilter: function(sitemapEntryFilter) {
@@ -121,7 +121,9 @@ export default Ember.Service.extend({
   },
 
   _filterSitemapEntry(entry, segments, dynamicSegments) {
-    const result = this.get('sitemapEntryFilter')(entry, segments, dynamicSegments);
+    const sitemapEntryFilter = this.get('sitemapEntryFilter');
+
+    const result = sitemapEntryFilter ? sitemapEntryFilter(entry, segments, dynamicSegments) : entry;
 
     return Promise.resolve(result);
   },
