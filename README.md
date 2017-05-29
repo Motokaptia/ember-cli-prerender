@@ -34,10 +34,6 @@ When a Javascript application is prerendered, the intial render on the client-si
 - [Full example](tests/dummy/app)
 - Near 100% test coverage with unit, integration and acceptance tests
 
-### Upcoming features
-
-- [ ] Blueprint will generate tests as well.
-
 ### Why not SSR? (server-side rendering)
 
 These benefits can also be achieved with server-side rendering. [FastBoot](https://ember-fastboot.com/) can be used to render Ember.js apps on the server-side, but it has these drawbacks:
@@ -144,7 +140,11 @@ ember prerender --output-dir dist-static --empty-output-dir 1 --max-simultaneous
 ## Contribution
 
 As with every other open-source project, contributions are appreciated!  
-Need ideas? Take a look at the list under 'Upcoming features'.
+
+### Todos
+
+- [ ] Blueprints should generate tests as well.
+- [ ] Automated tests for files under `/lib/`
 
 ### Installation
 
