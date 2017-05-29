@@ -6,6 +6,9 @@ export default Ember.Service.extend({
   rootUrl: null,
   allRoutes: null,
 
+  /**
+   * Initialize the service. Try to add the sitemap settings and the routes automatically.
+   */
   init() {
     this._super(...arguments);
 
@@ -21,6 +24,11 @@ export default Ember.Service.extend({
     }
   },
 
+  /**
+   * Set the sitemap settings.
+   *
+   * @param  {object} settings
+   */
   setSettings: function(settings) {
     if (settings) {
       if ('rootUrl' in settings) {
@@ -29,18 +37,38 @@ export default Ember.Service.extend({
     }
   },
 
+  /**
+   * Set the routes.
+   *
+   * @param  {object} allRoutes An ember routes object.
+   */
   setRoutes: function(allRoutes) {
     this.set('allRoutes', allRoutes);
   },
 
+  /**
+   * Optionally, can be used to filter all sitemap entries through a custom function.
+   *
+   * @param  {func} sitemapEntryFilter
+   */
   setSitemapEntryFilter: function(sitemapEntryFilter) {
     this.set('sitemapEntryFilter', sitemapEntryFilter);
   },
 
+  /**
+   * Set a function that will resolve possible dynamic segment values
+   *
+   * @param  {func} dynamicSegmentResolver
+   */
   setDynamicSegmentResolver: function(dynamicSegmentResolver) {
     this.set('dynamicSegmentResolver', dynamicSegmentResolver);
   },
 
+  /**
+   * Get the model for sitemap routes.
+   *
+   * @return {object} Promise returning an array of sitemap entry objects
+   */
   getModel() {
     this._validate();
 
@@ -49,6 +77,9 @@ export default Ember.Service.extend({
     return sitemapEntriesPromise;
   },
 
+  /**
+   * Make sure all the required settings are set.
+   */
   _validate() {
     if (!this.get('rootUrl')) {
       throw new Error(`sitemap.rootUrl is required`);
@@ -58,6 +89,12 @@ export default Ember.Service.extend({
     }
   },
 
+  /**
+   * Transform an Ember routes object into an array of sitemap entry objects
+   *
+   * @param  {object} routes Ember routes object
+   * @return {object} Promise returning sitemap entry objects
+   */
   _routesToSitemapEntries(routes) {
     const ignore = [
       'error',
@@ -120,6 +157,14 @@ export default Ember.Service.extend({
       );
   },
 
+  /**
+   * If sitemapEntryFilter is set, uses it to filter a sitemap entry.
+   *
+   * @param  {object} entry
+   * @param  {array} segments
+   * @param  {object} dynamicSegments={}
+   * @return {object} Promise returning the filtered sitemap entry
+   */
   _filterSitemapEntry(entry, segments, dynamicSegments = {}) {
     const sitemapEntryFilter = this.get('sitemapEntryFilter');
 
@@ -128,16 +173,34 @@ export default Ember.Service.extend({
     return Promise.resolve(result);
   },
 
+  /**
+   * Transform an Ember route object into a segments array.
+   *
+   * @param  {object} route
+   * @return {object} An array of segments in the route
+   */
   _routeToSegments(route) {
     return route.segments
       .filter(segment => [0, 1].includes(segment.type))
       .map(({type, value}) => (type === 1) ? `:${value}` : value); // Prefix dynamic segments with colon
   },
 
+  /**
+   * Converts a relative URL to an absolute URL.
+   *
+   * @param  {string} relativeUrl
+   * @return {string} Absolute URL
+   */
   _relativeToAbsoluteUrl(relativeUrl) {
     return this.get('rootUrl') + relativeUrl;
   },
 
+  /**
+   * Removes duplicate sitemap array entries. Duplicates exist because of index routes.
+   *
+   * @param  {array} entries
+   * @return {array} Entries with duplicates removed
+   */
   _removeDuplicateEntries(entries) {
     const newEntries = [];
     entries.forEach((entry) => {
@@ -148,6 +211,13 @@ export default Ember.Service.extend({
     return newEntries;
   },
 
+  /**
+   * Transforms a route object into a path string.
+   *
+   * @param  {object} route An Ember route object
+   * @param  {object} dynamicSegments An object containing values for dynamic segments in the route
+   * @return {string} Path (Ex: /photos)
+   */
   _routeToPath(route, dynamicSegments) {
     return route.segments
       .filter(segment => segment.type === 0 || segment.type === 1)
@@ -165,12 +235,26 @@ export default Ember.Service.extend({
       .join('/');
   },
 
+  /**
+   * Extracts dynamic segments from an Ember route object.
+   *
+   * @param  {object} route An Ember route object
+   * @return {array} An array of dynamic segment keys
+   */
   _routeToDynamicSegments(route) {
     return route.segments
       .filter(segment => segment.type === 1)
       .map(segment => segment.value);
   },
 
+  /**
+   * Resolves possible values for a dynamic segment using the dynamicSegmentResolver function.
+   *
+   * @param  {string} dynamicSegmentKey
+   * @param  {array} allSegments
+   * @param  {object} otherDynamicSegments
+   * @return {array} Possible values for the dynamic segment.
+   */
   _resolveDynamicSegment(dynamicSegmentKey, allSegments, otherDynamicSegments) {
     const dynamicSegmentResolver = this.get('dynamicSegmentResolver');
 
@@ -191,6 +275,17 @@ export default Ember.Service.extend({
       });
   },
 
+  /**
+   * Given a list of dynamic segments, returns an array of all the possible
+   * permutations for the combination of those dynamic segments.
+   * Since the number of dynamic segments is not limited or fixed, this function
+   * is designed recursive.
+   *
+   * @param  {array} dynamicSegmentsKeys An array of dynamic segment key strings
+   * @param  {array} segments An array of all segments in the route
+   * @param  {permutation} permutation={} Used for passing the permutation in recursive calls
+   * @return {array} An array of all the possible permutations (dynamic segment objects)
+   */
   _dynamicSegmentsToPermutations(dynamicSegmentsKeys, segments, permutation = {}) {
     if (dynamicSegmentsKeys.length === 0) {
       return Promise.resolve([]);
