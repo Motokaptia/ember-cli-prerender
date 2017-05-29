@@ -5,21 +5,30 @@ moduleForComponent('sitemap-txt', 'Integration | Component | sitemap txt', {
   integration: true
 });
 
-test('it renders', function(assert) {
+test('it wraps the output with <pre id="sitemap-txt"> and </pre>', function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  this.render(hbs`{{sitemap-txt model=model}}`);
 
-  this.render(hbs`{{sitemap-txt}}`);
+  const output = this.$().find('div').html().trim();
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(output.indexOf('<pre id="sitemap-txt">'), 0);
+  assert.equal(output.indexOf('</pre>'), output.length - '</pre>'.length);
+});
 
-  // Template block usage:
-  this.render(hbs`
-    {{#sitemap-txt}}
-      template block text
-    {{/sitemap-txt}}
-  `);
+test('it outputs each entry url on a separate line', function(assert) {
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  const sampleModel = [
+    { loc: 'mySampleUrl1' },
+    { loc: 'mySampleUrl2' },
+  ];
+
+  this.set('model', sampleModel);
+
+  this.render(hbs`{{sitemap-txt model=model}}`);
+
+  const printedUrls = this.$().find('pre').html().trim().split('\n');
+
+  assert.equal(printedUrls.length, sampleModel.length);
+  assert.equal(printedUrls[0], sampleModel[0].loc);
+  assert.equal(printedUrls[1], sampleModel[1].loc);
 });

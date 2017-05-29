@@ -5,21 +5,43 @@ moduleForComponent('sitemap-xml', 'Integration | Component | sitemap xml', {
   integration: true
 });
 
-test('it renders', function(assert) {
+test('it wraps the output with <pre id="sitemap-xml"> and </pre>', function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  this.render(hbs`{{sitemap-xml model=model}}`);
+
+  const output = this.$().find('div').html().trim();
+
+  assert.equal(output.indexOf('<pre id="sitemap-xml">'), 0);
+  assert.equal(output.indexOf('</pre>'), output.length - '</pre>'.length);
+});
+
+test('its output is wrapped with standard XML sitemap markup', function(assert) {
 
   this.render(hbs`{{sitemap-xml}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  const urlset = this.$().find('pre').children('urlset');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#sitemap-xml}}
-      template block text
-    {{/sitemap-xml}}
-  `);
+  assert.equal(urlset.length, 1);
+  assert.equal(urlset.attr('xmlns'), 'http://www.sitemaps.org/schemas/sitemap/0.9');
+});
 
-  assert.equal(this.$().text().trim(), 'template block text');
+test('it outputs entries in a standard XML sitemap format', function(assert) {
+
+  const sampleModel = [
+    { loc: 'mySampleUrl1' },
+    { loc: 'mySampleUrl2', lastmod: 'LASTMOD', changefreq: 'CHANGEFREQ', priority: 'PRIORITY' },
+  ];
+
+  this.set('model', sampleModel);
+
+  this.render(hbs`{{sitemap-xml model=model}}`);
+
+  const entries = this.$().find('url');
+
+  assert.equal(entries.length, sampleModel.length);
+  assert.equal(entries.eq(0).find('loc').text(), sampleModel[0].loc);
+  assert.equal(entries.eq(1).find('loc').text(), sampleModel[1].loc);
+  assert.equal(entries.eq(1).find('lastmod').text(), sampleModel[1].lastmod);
+  assert.equal(entries.eq(1).find('changefreq').text(), sampleModel[1].changefreq);
+  assert.equal(entries.eq(1).find('priority').text(), sampleModel[1].priority);
 });
