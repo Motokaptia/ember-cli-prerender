@@ -11,7 +11,7 @@ export default Ember.Service.extend({
 
     const envSettings = Ember.getOwner(this).resolveRegistration('config:environment');
     if (envSettings) {
-      this.setSitemapSettings(envSettings.sitemap);
+      this.setSettings(envSettings.sitemap);
     }
 
     const router = Ember.getOwner(this).lookup('router:main');
@@ -25,10 +25,10 @@ export default Ember.Service.extend({
     this.set('allRoutes', allRoutes);
   },
 
-  setSitemapSettings: function(sitemapSettings) {
-    if (sitemapSettings) {
-      if ('rootUrl' in sitemapSettings) {
-        this.set('rootUrl', sitemapSettings.rootUrl);
+  setSettings: function(settings) {
+    if (settings) {
+      if ('rootUrl' in settings) {
+        this.set('rootUrl', settings.rootUrl);
       }
     }
   },
