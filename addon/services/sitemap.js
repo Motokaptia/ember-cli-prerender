@@ -172,7 +172,13 @@ export default Ember.Service.extend({
   },
 
   _resolveDynamicSegment(dynamicSegmentKey, allSegments, otherDynamicSegments) {
-    const result = this.get('dynamicSegmentResolver')(dynamicSegmentKey, allSegments, otherDynamicSegments);
+    const dynamicSegmentResolver = this.get('dynamicSegmentResolver');
+
+    if (!dynamicSegmentResolver) {
+      throw new Error('dynamicSegmentResolver is required but is not set.');
+    }
+
+    const result = dynamicSegmentResolver(dynamicSegmentKey, allSegments, otherDynamicSegments);
 
     return Promise.resolve(result)
       .then(values => {
