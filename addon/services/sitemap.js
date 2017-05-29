@@ -4,15 +4,33 @@ export default Ember.Service.extend({
   sitemapEntryFilter: null,
   dynamicSegmentResolver: null,
   rootUrl: null,
+  allRoutes: null,
 
   init() {
     this._super(...arguments);
 
-    const { sitemap } = Ember.getOwner(this).resolveRegistration('config:environment');
+    const envSettings = Ember.getOwner(this).resolveRegistration('config:environment');
+    if (envSettings) {
+      this.setSitemapSettings(envSettings.sitemap);
+    }
 
-    this.set('rootUrl', sitemap.rootUrl);
+    const router = Ember.getOwner(this).lookup('router:main');
+    const allRoutes = router.get('_routerMicrolib.recognizer.names');
+    if (allRoutes) {
+      this.setRoutes(allRoutes);
+    }
+  },
 
-    this._validate();
+  setRoutes: function(allRoutes) {
+    this.set('allRoutes', allRoutes);
+  },
+
+  setSitemapSettings: function(sitemapSettings) {
+    if (sitemapSettings) {
+      if ('rootUrl' in sitemapSettings) {
+        this.set('rootUrl', sitemapSettings.rootUrl);
+      }
+    }
   },
 
   setSitemapEntryFilter: function(sitemapEntryFilter) {
@@ -24,9 +42,9 @@ export default Ember.Service.extend({
   },
 
   getModel() {
-    const router = Ember.getOwner(this).lookup('router:main');
-    const allRoutes = router.get('_routerMicrolib.recognizer.names');
-    const sitemapEntriesPromise = this._routesToSitemapEntries(allRoutes);
+    this._validate();
+
+    const sitemapEntriesPromise = this._routesToSitemapEntries(this.get('allRoutes'));
 
     return sitemapEntriesPromise;
   },
@@ -34,6 +52,9 @@ export default Ember.Service.extend({
   _validate() {
     if (!this.get('rootUrl')) {
       throw new Error(`sitemap.rootUrl is required`);
+    }
+    if (!this.get('allRoutes')) {
+      throw new Error(`allRoutes are required`);
     }
   },
 
