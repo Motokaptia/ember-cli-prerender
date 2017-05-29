@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-export default function sitemapEntryFilter(entry, segments, dynamicSegments = {}) {
+export default function sitemapEntryFilter(entry, segments, dynamicSegments) {
 
   /**
    * Uncomment the line below and open localhost:4200/sitemap.txt on your browser.
