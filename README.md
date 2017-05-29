@@ -32,11 +32,11 @@ When a Javascript application is prerendered, the intial render on the client-si
 - Compatible with the pod-based structure.
 - Compatible with [FastBoot Shoebox](https://ember-fastboot.com/docs/user-guide#the-shoebox) ([Example](tests/dummy/app/routes/index.js)).
 - [Full example](tests/dummy/app)
+- Near 100% test coverage with unit, integration and acceptance tests
 
 ### Upcoming features
 
 - [ ] Blueprint will generate tests as well.
-- [ ] Full automated test coverage.
 
 ### Why not SSR? (server-side rendering)
 
@@ -158,9 +158,8 @@ Need ideas? Take a look at the list under 'Upcoming features'.
 
 ### Testing
 
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+* `npm test`
+* `npm run test-watch`
 
 ### Building
 

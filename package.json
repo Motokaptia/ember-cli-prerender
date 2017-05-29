@@ -19,7 +19,8 @@
     "build": "ember build",
     "postbuild": "ember prerender",
     "start": "ember server",
-    "test": "ember test",
+    "test": "COVERAGE=true ember test",
+    "test-watch": "ember test --server",
     "static-server": "static-server dist"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.0.0",
     "ember-cli": "2.13.2",
+    "ember-cli-code-coverage": "^0.3.12",
     "ember-cli-dependency-checker": "2.0.0",
     "ember-cli-eslint": "^3.0.0",
     "ember-cli-head": "^0.2.0",
