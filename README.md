@@ -14,6 +14,16 @@ Applications that heavily use Javascript to render pages, like apps made with Em
 
 When a Javascript application is prerendered, the intial render on the client-side can happen before the Javascript files are loaded and run. Faster initial render improves the user experience and the search engine ranking.
 
+### Should I use this addon?
+
+You should definitely use this addon if:
+
+- **SEO matters.** You want to bring in organic traffic from search engines as much as possible.
+- **UX matters.** You want your pages to render as fast as possible. 
+- **Social Media matters.** When you or other people share your content, you want to be able to customize what image, title and description is displayed on social media.
+- **Not much personalization.** Most of your pages are not personalized and are showing the same content to all visitors.
+- **Want to avoid server-side rendering.** You don't want to have to deploy and maintain a Node.js server-side app using [Fastboot](https://ember-fastboot.com/) and worry about caching, error handling and all the server-side issues.
+
 ### Features
 
 - Easy installation. Most of the setup is done for you using a blueprint generator.
