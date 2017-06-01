@@ -21,7 +21,7 @@ You should definitely use this addon if:
 - **SEO matters.** You want to bring in organic traffic from search engines as much as possible.
 - **UX matters.** You want your pages to render as fast as possible. 
 - **Social Media matters.** When you or other people share your content, you want to be able to customize what image, title and description is displayed on social media.
-- **Content changes are always followed by a build** As the prerendering with this addon happens on build time, you should NOT use it if your content changes without running a build. An example would be an app displaying frequently changing content from an API.
+- **Content changes are always followed by a build.** As the prerendering with this addon happens on build time, you should NOT use it if your content changes without running a build. An example would be an app displaying frequently changing content from an API.
 - **Not much personalization.** Most of your pages are not personalized and are showing the same content to all visitors.
 - **Want to avoid server-side rendering.** You don't want to have to deploy and maintain a Node.js server-side app using [Fastboot](https://ember-fastboot.com/) and worry about caching, error handling and all the server-side issues.
 
