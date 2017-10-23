@@ -24,8 +24,8 @@
     "static-server": "static-server dist"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.0.0",
-    "ember-cli-fastboot": "1.0.0-beta.19",
+    "ember-cli-babel": "^6.3.0",
+    "ember-cli-fastboot": "^1.1.0",
     "ember-cli-htmlbars": "2.0.1",
     "ember-cli-htmlbars-inline-precompile": "^0.4.0",
     "fastboot-app-server": "^1.0.0-rc.5",
@@ -36,25 +36,29 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
     "ember-ajax": "^3.0.0",
-    "ember-cli": "2.13.2",
+    "ember-cli": "~2.15.1",
     "ember-cli-code-coverage": "^0.3.12",
-    "ember-cli-dependency-checker": "2.0.0",
-    "ember-cli-eslint": "^3.0.0",
+    "ember-cli-dependency-checker": "^2.0.0",
+    "ember-cli-eslint": "^4.0.0",
     "ember-cli-head": "^0.2.0",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-qunit": "^4.0.0",
     "ember-cli-shims": "^1.1.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-disable-prototype-extensions": "^1.1.0",
+    "ember-disable-prototype-extensions": "^1.1.2",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-network": "^0.3.1",
     "ember-resolver": "^4.0.0",
-    "ember-source": "2.13.2",
+    "ember-source": "~2.15.0",
+    "ember-welcome-page": "^3.0.0",
     "express-simple-static-server": "^0.1.0",
     "loader.js": "^4.2.3",
     "phantomjs-prebuilt": "^2.1.14"
+  },
+  "peerDependencies": {
+    "ember-cli-fastboot": "^1.2.0"
   },
   "engines": {
     "node": ">= 6"
