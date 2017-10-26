@@ -1,6 +1,6 @@
 # ember-cli-prerender
 
-An Ember CLI addon for prerendering Ember.js apps and generating sitemaps. 
+An Ember CLI addon for prerendering Ember.js apps and generating sitemaps.
 
 ## The problem
 
@@ -19,7 +19,7 @@ When a Javascript application is prerendered, the intial render on the client-si
 You should definitely use this addon if:
 
 - **SEO matters.** You want to bring in organic traffic from search engines as much as possible.
-- **UX matters.** You want your pages to render as fast as possible. 
+- **UX matters.** You want your pages to render as fast as possible.
 - **Social Media matters.** When you or other people share your content, you want to be able to customize what image, title and description is displayed on social media.
 - **Content changes are always followed by a build.** As the prerendering with this addon happens on build time, you should NOT use it if your content changes without running a build. An example would be an app displaying frequently changing content from an API.
 - **Not much personalization.** Most of your pages are not personalized and are showing the same content to all visitors.
@@ -37,7 +37,7 @@ You should definitely use this addon if:
     - The initial load time will be much faster and this will improve the user experience significantly while giving your Ember app a SEO boost.
     - It's compatible with [ember-cli-head](https://github.com/ronco/ember-cli-head), so you can set title, description and meta tags per route for social media and search engine crawler bots ([Example](tests/dummy/app/routes/user.js)).
 - The prerendering is really quick, because it happens asynchronously with throttling to minimize the prerendering time.
-- You can exclude specific pages from being listed on the sitemap ([How](tests/dummy/app/utils/sitemap-entry-filter.js)). This is useful for hiding private routes, for example. 
+- You can exclude specific pages from being listed on the sitemap ([How](tests/dummy/app/utils/sitemap-entry-filter.js)). This is useful for hiding private routes, for example.
 - Follows the [standard protocol](https://www.sitemaps.org/protocol.html) for XML sitemaps. `<loc>` tag is automatically added to the XML sitemap for each page. `<lastmod>`, `<changefreq>` and `<priority>` can be added as well ([Example](tests/dummy/app/utils/sitemap-entry-filter.js)).
 - Compatible with the newest version of Ember (2.13).
 - Compatible with the pod-based structure.
@@ -58,7 +58,7 @@ This addon uses FastBoot when prerendering your app, but it uses it on buildtime
 
 This addon is being used in production in the following websites:
 
-- [MicroMech](https://micromech.net) (The new version that uses this addon is scheduled to launch to the public in a few weeks)
+- [MicroMech](https://micromech.net)
 - [Declan Ramsay Portfolio](https://declanramsay.co.uk)
 
 Are you using this addon in production as well? Edit [README.md](README.md) and add your site to this list!
@@ -69,7 +69,7 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
 
 - `ember install ember-cli-prerender`
 - `ember generate sitemap-utils`
-- `ember generate sitemap xml` (optional, for submitting to search engines) 
+- `ember generate sitemap xml` (optional, for submitting to search engines)
 - `ember generate sitemap txt` (required for the prerendering functionality to work)  
 - If you're using [dynamic segments](https://guides.emberjs.com/v2.13.0/routing/defining-your-routes/#toc_dynamic-segments), edit `utils/dynamic-segment-resolver.js` so that it returns possible values for each dynamic segment ([Example](tests/dummy/app/utils/dynamic-segment-resolver.js)).
 - Configure the addon in your `ember-cli-build.js`:
@@ -79,7 +79,7 @@ Are you using this addon in production as well? Edit [README.md](README.md) and 
       sitemap: {
 
         /**
-         * Your Ember app's internet address. 
+         * Your Ember app's internet address.
          * All relative paths in your sitemap will be prefixed with this.
          */
         rootUrl: 'https://mydummyapp.com/',
@@ -135,13 +135,13 @@ You most likely will not need to adjust any of the following settings.
 
 Setting | Type | Default | Description
 --- | --- | --- | ---
-keep-fastboot | Boolean | false | If set to false, it will remove the `/dist/fastboot` folder, because you do not need it in production.
 input-dir | String | dist | Change it if your app does not get built in the default `/dist` directory.
 output-dir | String | dist | By default, the prerendered files are saved in your `/dist` folder. This option allows you to change that.
 empty-output-dir | Boolean | false | If true, the prerendering script will clear the output directory before creating the prerendered files. Should be used in conjunction with `output-dir`.
 max-simultaneous-url-fetches | Number | 4 | We throttle requests to our local Fastboot server so it doesn't get overloaded with too many async requests.
 root-url | String |  | You can leave it blank if your app is located at the root-level on your domain. If your app is in a subfolder, this setting should match the `rootUrl` setting in your `ember-cli-build.js`.
 sitemap-file-name | String | sitemap | The file name for the txt and xml sitemaps.
+use-alternative-server | String | false | If you want to bypass using the prerender server and use one of your own
 
 Example:
 
