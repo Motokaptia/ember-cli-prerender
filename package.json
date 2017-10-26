@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-prerender",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "An Ember CLI addon for prerendering Ember.js apps.",
   "keywords": [
     "ember-addon"
@@ -24,13 +24,11 @@
     "static-server": "static-server dist"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.3.0",
-    "ember-cli-fastboot": "^1.1.0",
+    "ember-cli-babel": "^6.8.2",
     "ember-cli-htmlbars": "2.0.1",
     "ember-cli-htmlbars-inline-precompile": "^0.4.0",
-    "fastboot-app-server": "^1.0.0-rc.5",
-    "fs-extra": "3.0.1",
-    "node-fetch": "1.7.0",
+    "fs-extra": "^3.0.1",
+    "node-fetch": "1.7.3",
     "throat": "^3.0.0"
   },
   "devDependencies": {
@@ -54,11 +52,9 @@
     "ember-source": "~2.15.0",
     "ember-welcome-page": "^3.0.0",
     "express-simple-static-server": "^0.1.0",
+    "fastboot-app-server": "^1.1.0",
     "loader.js": "^4.2.3",
     "phantomjs-prebuilt": "^2.1.14"
-  },
-  "peerDependencies": {
-    "ember-cli-fastboot": "^1.2.0"
   },
   "engines": {
     "node": ">= 6"

@@ -46,7 +46,7 @@ module.exports = {
    */
   includedCommands: function() {
     return {
-      'prerender': require('./lib/commands/prerender'),
+      'prerender': require('./lib/commands/prerender')
     };
   },
 };
