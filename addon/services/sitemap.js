@@ -232,7 +232,7 @@ export default Ember.Service.extend({
           }
         }
       })
-      .join('/');
+      .join('/')+"/";
   },
 
   /**
