@@ -219,7 +219,7 @@ export default Ember.Service.extend({
    * @return {string} Path (Ex: /photos)
    */
   _routeToPath(route, dynamicSegments) {
-    return route.segments
+    let path = route.segments
       .filter(segment => segment.type === 0 || segment.type === 1)
       .map(segment => {
         if (segment.type === 0) { // static
@@ -232,7 +232,11 @@ export default Ember.Service.extend({
           }
         }
       })
-      .join('/')+"/";
+      .join('/');
+      if(path[path.length-1]!="/"){
+        path = path +"/";
+      }
+      return path;
   },
 
   /**
