@@ -5,6 +5,7 @@ export default Ember.Service.extend({
   dynamicSegmentResolver: null,
   rootUrl: null,
   allRoutes: null,
+  cleanUrls:false,
 
   /**
    * Initialize the service. Try to add the sitemap settings and the routes automatically.
@@ -33,6 +34,9 @@ export default Ember.Service.extend({
     if (settings) {
       if ('rootUrl' in settings) {
         this.set('rootUrl', settings.rootUrl);
+      }
+      if('cleanUrls' in settings){
+        this.set('cleanUrls', settings.cleanUrls);
       }
     }
   },
@@ -233,7 +237,8 @@ export default Ember.Service.extend({
         }
       })
       .join('/');
-      if(path[path.length-1]!="/"){
+      //don't add a slash to root index.html
+      if(!this.get('cleanUrls') && path.length!=0){
         path = path +"/";
       }
       return path;
