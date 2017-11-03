@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-prerender",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "An Ember CLI addon for prerendering Ember.js apps.",
   "keywords": [
     "ember-addon"
@@ -24,7 +24,6 @@
     "static-server": "static-server dist"
   },
   "dependencies": {
-
     "ember-cli-htmlbars": "2.0.1",
     "ember-cli-htmlbars-inline-precompile": "^0.4.0",
     "fs-extra": "^3.0.1",
