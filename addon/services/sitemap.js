@@ -1,11 +1,12 @@
 import Ember from 'ember';
+const { getOwner } = Ember;
 
 export default Ember.Service.extend({
   sitemapEntryFilter: null,
   dynamicSegmentResolver: null,
   rootUrl: null,
   allRoutes: null,
-  cleanUrls:true,
+  cleanUrls: true,
 
   /**
    * Initialize the service. Try to add the sitemap settings and the routes automatically.
@@ -13,12 +14,13 @@ export default Ember.Service.extend({
   init() {
     this._super(...arguments);
 
-    const envSettings = Ember.getOwner(this).resolveRegistration('config:environment');
+    const container = getOwner(this);
+    const envSettings = container.resolveRegistration('config:environment');
     if (envSettings) {
       this.setSettings(envSettings.sitemap);
     }
 
-    const router = Ember.getOwner(this).lookup('router:main');
+    const router = container.lookup('router:main');
     const allRoutes = router.get('_routerMicrolib.recognizer.names');
     if (allRoutes) {
       this.setRoutes(allRoutes);
@@ -30,7 +32,7 @@ export default Ember.Service.extend({
    *
    * @param  {object} settings
    */
-  setSettings: function(settings) {
+  setSettings(settings) {
     if (settings) {
       if ('rootUrl' in settings) {
         this.set('rootUrl', settings.rootUrl);
@@ -46,7 +48,7 @@ export default Ember.Service.extend({
    *
    * @param  {object} allRoutes An ember routes object.
    */
-  setRoutes: function(allRoutes) {
+  setRoutes(allRoutes) {
     this.set('allRoutes', allRoutes);
   },
 
@@ -55,7 +57,7 @@ export default Ember.Service.extend({
    *
    * @param  {func} sitemapEntryFilter
    */
-  setSitemapEntryFilter: function(sitemapEntryFilter) {
+  setSitemapEntryFilter(sitemapEntryFilter) {
     this.set('sitemapEntryFilter', sitemapEntryFilter);
   },
 
@@ -64,7 +66,7 @@ export default Ember.Service.extend({
    *
    * @param  {func} dynamicSegmentResolver
    */
-  setDynamicSegmentResolver: function(dynamicSegmentResolver) {
+  setDynamicSegmentResolver(dynamicSegmentResolver) {
     this.set('dynamicSegmentResolver', dynamicSegmentResolver);
   },
 
@@ -271,7 +273,12 @@ export default Ember.Service.extend({
       throw new Error('dynamicSegmentResolver is required but is not set.');
     }
 
-    const result = dynamicSegmentResolver(dynamicSegmentKey, allSegments, otherDynamicSegments);
+    const result = dynamicSegmentResolver(
+      dynamicSegmentKey,
+      allSegments,
+      otherDynamicSegments,
+      getOwner(this)
+    );
 
     return Promise.resolve(result)
       .then(values => {

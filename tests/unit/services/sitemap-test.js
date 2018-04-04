@@ -88,10 +88,11 @@ test('calls dynamicSegmentResolver with the right parameters', async function (a
   const service = this.subject();
   service.setSettings({ rootUrl: dummyRootUrl });
   service.setRoutes(routesWithDynamicSegments);
-  service.setDynamicSegmentResolver((dynamicSegmentKey, allSegments, otherDynamicSegments) => {
+  service.setDynamicSegmentResolver((dynamicSegmentKey, allSegments, otherDynamicSegments, container) => {
     if (dynamicSegmentKey === 'photo_id') {
       assert.deepEqual(allSegments, ['user', ':user_id', 'photos', ':photo_id']);
       assert.deepEqual(otherDynamicSegments, { user_id: 1 });
+      assert.equal(typeof container.lookup, 'function');
     }
     return [1];
   });
